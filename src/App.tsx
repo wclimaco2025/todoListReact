@@ -1,11 +1,15 @@
+import { Footer, Header } from "./components"
+
 function App() {
 
 
   return (
     <>
+    <Header/>
       <div>
-        <h1>Lista de Tareas</h1>
+        <h1>Tareas</h1>
        </div>
+    <Footer/>
     </>
   )
 }
