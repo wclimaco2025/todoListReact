@@ -1,6 +1,6 @@
 export interface Todo{
     id: string;
     descripcion: string;
-    estado: 'PENDIENTE' | 'EN PROCESO' | 'TERMINADO';
+    estado: 'PENDIENTE' | 'TERMINADO';
     created_at: Date;
 }

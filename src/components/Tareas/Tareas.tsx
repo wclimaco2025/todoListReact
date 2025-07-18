@@ -1,5 +1,35 @@
+import { useState, useEffect } from 'react';
+import { getTasks } from '../../services/apiservices.supabase';
+import type { Todo } from '../../types/todo.type';
+
 export const Tareas = () => {
+  const [tasks, setTasks] = useState<Todo[]>([]);
+
+  // Mostrar las tareas al cargar la página
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const data: Todo[]| null = await getTasks();
+        setTasks(data??[]);
+
+      } catch (error) {
+        console.error("Error fetching tareas:", error);
+      }
+    };
+    fetchTasks();
+  }, []);
+
   return (
+    <ul>
+      {tasks.map((task) => (
+        <li key={task.id}>{task.descripcion}</li>
+      ))}
+    </ul>
+  );
+
+
+
+ /*  return (
     <>
       <section className="flex justify-center items-center border-2 py-4 border-indigo-700">
         <div className="flex justify-center items-center">
@@ -14,5 +44,5 @@ export const Tareas = () => {
       </section>
     </>
     
-  )
+  ) */
 }
