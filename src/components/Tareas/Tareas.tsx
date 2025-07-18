@@ -1,12 +1,18 @@
-import { useState, useEffect } from 'react';
+import { use } from 'react';
 import { getTasks } from '../../services/apiservices.supabase';
 import type { Todo } from '../../types/todo.type';
 
+// Promesa sin consumir
+const fetchTasks =  getTasks();
+
 export const Tareas = () => {
-  const [tasks, setTasks] = useState<Todo[]>([]);
+   // Usando el metodo use para consumir la tarea
+   const tasks:Todo[]|null =use(fetchTasks);
+
+   // const [tasks, setTasks] = useState<Todo[]>([]);
 
   // Mostrar las tareas al cargar la página
-  useEffect(() => {
+ /* useEffect(() => {
     const fetchTasks = async () => {
       try {
         const data: Todo[]| null = await getTasks();
@@ -17,14 +23,14 @@ export const Tareas = () => {
       }
     };
     fetchTasks();
-  }, []);
+  }, []);*/
 
   return (
-    <ul>
-      {tasks.map((task) => (
+    <section className='container'>
+      {tasks?.map((task) => (
         <li key={task.id}>{task.descripcion}</li>
       ))}
-    </ul>
+    </section>
   );
 
 
