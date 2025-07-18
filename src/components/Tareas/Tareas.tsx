@@ -1,5 +1,5 @@
 import { use } from 'react';
-import { getTasks } from '../../services/apiservices.supabase';
+import { getTasks, updateTask } from '../../services/apiservices.supabase';
 import type { Todo } from '../../types/todo.type';
 
 // Promesa sin consumir
@@ -26,29 +26,22 @@ export const Tareas = () => {
   }, []);*/
 
   return (
-    <section className='container'>
-      {tasks?.map((task) => (
-        <li key={task.id}>{task.descripcion}</li>
-      ))}
-    </section>
-  );
-
-
-
- /*  return (
-    <>
-      <section className="flex justify-center items-center border-2 py-4 border-indigo-700">
-        <div className="flex justify-center items-center">
-          <h3 className="text-2xl">Tareas</h3>
-          <div className="card">
-            <div className="card-body">
-              <h2 className="card-title">Tareas</h2>
-              <p className="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget felis eu turpis tincidunt ultrices. Nullam eget felis eu turpis tincidunt ultrices. Nullam eget felis eu turpis tincidunt ultrices.</p>
-            </div>
-          </div>
+     <>
+     <h2 className="text-3xl font-bold text-gray-800 text-center mt-8">Listado de Tareas</h2>
+      <div className="grid grid-cols-1 mx-auto my-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {tasks?.map((task) => (
+          <div key={task.id} className="bg-white rounded-lg shadow-md p-4 flex flex-col justify-between">
+            <h2>Id: {task.id}</h2>
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">Descripción: {task.descripcion}</h3>
+            <button 
+              onClick={() => updateTask(task)} 
+              className="mt-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Completar
+            </button>
         </div>
-      </section>
-    </>
-    
-  ) */
+      ))}
+      </div>
+     </>
+  );
 }

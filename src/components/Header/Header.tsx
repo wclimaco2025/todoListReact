@@ -1,10 +1,14 @@
 export const Header = () => {
   return (
    <>
-     <section className="bg-indigo-700 p-5 text-white flex justify-center items-center">
-      <div><h3 className="text-2xl">APP TAREAS REACT</h3></div>
-     </section>
-     <h1>Lista de Tareas</h1>
+     <header className="bg-gray-900 text-white shadow-lg">
+      <div className="container mx-auto px-4 py-6 flex justify-between items-center">
+        <div>
+        <h1 className="text-3xl font-bold">Todo List</h1>
+        <p className="text-gray-400">Organiza y gestiona tus tareas</p>     
+        </div>
+      </div>
+     </header>
    </>
   )
 }

@@ -1,7 +1,9 @@
 export const Footer = () => {
   return (
-    <footer className="bg-indigo-700 p-5 text-white flex justify-center items-center">
-      <div><h3 className="text-2xl">APP TAREAS REACT</h3></div>
+    <footer className="bg-gray-900 text-white py-4 mt-8">
+      <div className="container mx-auto text-center">
+        <p>&copy; 2024 Todo List WC. Todos los derechos reservados.</p>
+      </div>
     </footer>
   )
 }

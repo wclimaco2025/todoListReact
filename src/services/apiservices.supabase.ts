@@ -1,5 +1,5 @@
 import { supabase } from "../api/api.supabase";
-import type { Todo } from "../types/todo.type";
+import type { Todo, TodoNew } from "../types/todo.type";
 
 // Obtiene todas las tareas
 export  const getTasks = async () => {
@@ -20,7 +20,8 @@ export  const getTask = async (id: string) => {
   }
 }
 // Crea una tarea
-export const createTask = async (task: Todo) => {
+export const createTask = async (task: TodoNew) => {
+
   // Usando try catch para manejar errores
   try{const { data } = await supabase.from("Tasks").insert(task);
     return data;
