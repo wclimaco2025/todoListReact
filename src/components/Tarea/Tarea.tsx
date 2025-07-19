@@ -1,10 +1,10 @@
-import { createTask, getTasks } from "../../services/apiservices.supabase";
+import { createTask } from "../../services/apiservices.supabase";
 import type { TodoNew } from "../../types/todo.type";
 
 export const Tarea = () => {
     const addTask =async (event:React.FormEvent<HTMLFormElement>)=>{
         event.preventDefault();
-        console.log(event);
+       // console.log(event);
         const formData = new FormData(event.target as HTMLFormElement);
         const taskDescription = formData.get('taskInput')?.toString() || '';
         if (taskDescription.trim().length>=1) {
@@ -14,12 +14,11 @@ export const Tarea = () => {
                 descripcion:taskDescription,
                 estado:'PENDIENTE',
             }
-            const newTask = await createTask(task);
-            if (newTask) {
-                console.log('Tarea creada con éxito:', newTask);
-                await getTasks();
+            const {data,error} = await createTask(task);
+            if (!error) {
+                console.log('Tarea creada con éxito:', data);
             } else {
-                console.error('Error al crear la tarea');
+                console.error('Error al crear la tarea:', error);
             }
       }
     }
@@ -33,6 +32,7 @@ export const Tarea = () => {
                 className="flex-grow p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Escribe una nueva tarea..."
                 id="taskInput"
+                required
             />  
             <button 
                 type="submit"
