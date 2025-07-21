@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { getTasks, updateTask } from '../../services/apiservices.supabase';
 import type { PropsList, Todo } from '../../types/todo.type';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
-
+import emptyTasksSvg from '../../assets/empty-tasks.svg'; // Importa la nueva imagen
 
 
 export const Tareas = ({ refreshKey }: PropsList) => {
@@ -26,13 +26,23 @@ export const Tareas = ({ refreshKey }: PropsList) => {
   }
 
   if (!tasks || tasks.length === 0) {
-    return <div className="text-gray-600 text-center mt-8">Crea tu primera tarea</div>;
+    return( 
+      <div className="flex flex-col items-center justify-center h-full text-gray-600 text-center mt-8">
+        <img
+          src={emptyTasksSvg}
+          alt='No tasks'
+          className="w-48 h-48 mb-4"
+        />
+        <h2 className='text-3xl font-bold text-gray-800'>Crea tu primera tarea</h2>
+        <p className="mt-2 text-lg">Parece que no tienes tareas pendientes. ¡Es un buen momento para empezar!</p>
+      </div>
+    )
   }
 
   return (
      <>
      <h2 className="text-3xl font-bold text-gray-800 text-center mt-8">Listado de Tareas</h2>
-      <div className="grid grid-cols-1 mx-auto my-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 mx-auto mt-3 mb-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 h-full">
         {tasks.map((task) => (
           <div key={task.id} className="bg-white rounded-lg shadow-md p-4 flex flex-col justify-between">
             <h2 className='text-lg font-semibold'>Id: {task.id}</h2>
