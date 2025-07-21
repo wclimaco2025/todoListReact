@@ -1,21 +1,33 @@
-import { use } from 'react';
+import { useState, useEffect } from 'react';
 import { getTasks, updateTask } from '../../services/apiservices.supabase';
+import type { PropsList, Todo } from '../../types/todo.type';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
-// Promesa sin consumir
-const fetchTasks =  getTasks();
 
-export const Tareas = () => {
-   // Usando el metodo use para consumir la tarea
-   const { data: tasks, error } = use(fetchTasks);
 
-   // Si hay error
-   if (error) {
-     return <div className="text-red-500 text-center mt-8">Error al cargar las tareas: {error.message}</div>;
-   }
-   // Si tareas está vacía
-   if (!tasks || tasks.length === 0) {
-     return <div className="text-gray-600 text-center mt-8">No hay tareas disponibles.</div>;
-   }
+export const Tareas = ({ refreshKey }: PropsList) => {
+  // Estados para las tareas
+  const [tasks, setTasks] = useState<Todo[]>([]);
+  //Estado para carga
+  const [loading, setLoading] = useState<boolean>(true);
+
+ useEffect(() => {
+    const fetchTasks = async () => {
+      setLoading(true);
+      const { data } = await getTasks();
+      setTasks(data ?? []);
+      setLoading(false);
+    };
+    fetchTasks();
+  }, [refreshKey]); // se ejecuta cada vez que refreshKey cambia
+
+  if (loading) {
+    return <LoadingSpinner/>;
+  }
+
+  if (!tasks || tasks.length === 0) {
+    return <div className="text-gray-600 text-center mt-8">Crea tu primera tarea</div>;
+  }
 
   return (
      <>
@@ -34,13 +46,13 @@ export const Tareas = () => {
             <button 
               onClick={async () => {
                 try {
-                  const {data,error} = await updateTask(task);
-                  if (!error) {
+                  const { data, error: updateError } = await updateTask(task);
+                  if (!updateError) {
                     console.log('Tarea actualizada con éxito:', data);
-                    // Nota: Con `use(promise)`, la lista de tareas no se actualizará automáticamente aquí.
-                    // Para ver el cambio, se necesitaría recargar la página o implementar un mecanismo de re-fetch.
+                    //Actualizamos el estado de la tarea en el frontend
+                    setTasks(tasks.map((t) => (t.id === task.id ? { ...t, estado: "TERMINADO" } : t)));
                   } else {
-                    console.error('Error al actualizar la tarea:', error);
+                    console.error('Error al actualizar la tarea:', updateError);
                   }
                 } catch (err: any) {
                   console.error("Error al actualizar la tarea:", err.message);

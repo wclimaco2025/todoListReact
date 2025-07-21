@@ -1,20 +1,21 @@
-import { Suspense } from "react"
-import { Footer, Header, Tarea } from "./components"
-import { Tareas } from "./components/Tareas/Tareas"
-import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner"
+import { useState } from "react";
+import { Footer, Header, Tarea, Tareas } from "./components"
 function App() {
+// Estado que indica cambio
+  const [refreshKey, setRefreshKey] = useState(0);
 
-    return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
+  // Función que cualquier hijo puede invocar(Tarea, Tareas)
+  const triggerRefresh = () => setRefreshKey((k) => k + 1);
+
+  return (
+    <>
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-8">
-        <Tarea />
-        <Suspense fallback={<LoadingSpinner />}>
-          <Tareas />
-        </Suspense>
-      </main>
+      {/* Le pasamos la callback */}
+      <Tarea onTaskAdded={triggerRefresh} />
+      {/* Le pasamos la key para forzar re-fetch */}
+      <Tareas refreshKey={refreshKey} />
       <Footer />
-    </div>
+    </>
   );
 }
 

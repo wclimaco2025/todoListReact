@@ -3,3 +3,4 @@
 export { Header } from './Header/Header'
 export { Footer } from './Footer/Footer'
 export { Tarea } from './Tarea/Tarea'
+export { Tareas } from './Tareas/Tareas'
